@@ -11,7 +11,7 @@ const ItemList = () => {
         setItems(res.data);
       } catch (err) {
         console.error(err);
-      }
+      } 
     };
     fetchItems();
   }, []);
