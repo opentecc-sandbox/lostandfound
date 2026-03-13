@@ -17,6 +17,7 @@ router.get("/", async (req, res) => {
     });
     res.json(items);
   } catch (error) {
+    console.error("❌ DEBUGGING ERROR:", error);
     res.status(500).json({ error: "Failed to fetch items" });
   }
 });

@@ -26,6 +26,7 @@ model Item {
   category      String
   location      String
   dateFoundLost DateTime?
+  timeFoundLost String?
   photoUrl      String?
   status        String   @default("open") // 'open' or 'resolved'
   userId        Int
