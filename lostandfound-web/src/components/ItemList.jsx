@@ -1,40 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React,{useEffect, useState} from "react";
 import axios from "axios";
-
+import ItemCard from "./ItemCard";
 const ItemList = () => {
-  const [items, setItems] = useState([]);
+  const [items,setItems]=useState([])
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/api/items");
+  useEffect(()=>{
+    const fetchItems =async () =>{
+      try{
+        const res= await axios.get("http://localhost:5000/api/items");
         setItems(res.data);
-      } catch (err) {
-        console.error(err);
-      } 
-    };
+      }catch(err) {
+        console.error("Failed to fetch items:", err);
+      }
+    }
     fetchItems();
-  }, []);
+  },[]);
 
-  return (
-    <div>
-      <h2>Lost & Found Items</h2>
-      {items.length === 0 ? (
-        <p>No items found.</p>
-      ) : (
-        <ul>
-          {items.map((item) => (
-            <li key={item.id}>
-              <h3>{item.title} ({item.status})</h3>
-              <p>{item.description}</p>
-              <p>Category: {item.category} | Location: {item.location}</p>
-              <p>Date: {item.date_found_lost}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+
+  return(
+  <div>
+    {items.length === 0 ? (
+      <p>No items found .</p>
+    ) : (
+      <div>
+        {items.map ((item) => (
+          <ItemCard key={item.id} item={item}/>
+        ))}
+      </div>
+    )}
+  </div>
+    
   );
 };
+export default ItemList ;
 
-export default ItemList;
