@@ -1,12 +1,14 @@
+import { px } from "framer-motion";
+import { Maximize } from "lucide-react";
 import React from "react"
 const ItemCard = ({ item }) => {
     return(
         <>
         <div>
             <h3>{item.title}</h3>
-            <p>{item.dateFoundLost ?new Date (item.dateFoundLost).toLocaleDateString() : "No date"}</p>
+            <p >{item.dateFoundLost ?new Date (item.dateFoundLost).toLocaleDateString() : "No date"}</p>
         </div>
-        <div>
+        <div className="img">
             {item.photoUrl? (
                 <img src={item.photoUrl}alt={item.title} />) :(
                     <img src="https://bihin.ginowan-impulse.com/wp-content/themes/ginowanimp_zaitko1.0/assets/img/no-photo.jpg"/>
@@ -27,4 +29,4 @@ const ItemCard = ({ item }) => {
     
 };
 
-export default ItemCard
+export default ItemCard ;

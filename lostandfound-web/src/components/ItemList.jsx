@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from "react";
-import axios from "axios";
+import api from "../api/api"
 import ItemCard from "./ItemCard";
 const ItemList = () => {
   const [items,setItems]=useState([])
@@ -7,7 +7,7 @@ const ItemList = () => {
   useEffect(()=>{
     const fetchItems =async () =>{
       try{
-        const res= await axios.get("http://localhost:5000/api/items");
+        const res= await api.get("/items");
         setItems(res.data);
       }catch(err) {
         console.error("Failed to fetch items:", err);
