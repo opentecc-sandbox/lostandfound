@@ -29,8 +29,7 @@ const Register = () => {
     <div className="min-h-screen w-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1499002238440-d264edd596ec')] bg-cover bg-center">
     
       <div className="bg-white/10 backdrop-blur-lg p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/20 text-white">
-        <h2 className="text-4xl font-semibold text-center mb-2">Join us!</h2>
-        <p className="text-center text-sm text-gray-200 mb-8">Start your personal journey today</p>
+        <h2 className="text-4xl font-semibold text-center mb-2">Sign up</h2>
 
         <form onSubmit={handleSignup} className="space-y-5">
           {message.text && (
