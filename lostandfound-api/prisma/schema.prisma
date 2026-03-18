@@ -1,7 +1,6 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
-
 }
 
 datasource db {
@@ -13,24 +12,24 @@ model User {
   id            Int      @id @default(autoincrement())
   email         String   @unique
   password      String
-  name          String
-  contactNumber string?
   createdAt     DateTime @default(now())
+  contactNumber String?
+  fullname      String
   items         Item[]
 }
 
 model Item {
-  id            Int      @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   title         String
   description   String?
-  type          String   // 'lost' or 'found'
+  type          String
   category      String
   location      String
   dateFoundLost DateTime?
-  timeFoundLost String?
   photoUrl      String?
-  status        String   @default("open") // 'open' or 'resolved'
+  status        String    @default("open")
   userId        Int
-  user          User     @relation(fields: [userId], references: [id])
-  createdAt     DateTime @default(now())
+  createdAt     DateTime  @default(now())
+  timeFoundLost String?
+  user          User      @relation(fields: [userId], references: [id])
 }

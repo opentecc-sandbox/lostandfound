@@ -1,62 +1,90 @@
-import React ,{ useState } from "react"
-import { useNavigate } from "react-router-dom"
-import api from "../api/api"
-const Regester =() => {
-    const [email,setEmail] =useState("");
-    const[password,setPassword] =useState("");
-    const [contactNumber, setContactNumber] = useState("");
-    const navigate =useNavigate();
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import api from "../api/api"; 
 
+const Register = () => {
+  const [formData, setFormData] = useState({ fullName: "", email: "", password: "" });
+  const [message, setMessage] = useState({ text: "", type: "" });
+  const navigate = useNavigate();
 
-    const handleRegister =async(e)=>{
-        e.preventDefaul();
-        try{
-            await api.post ("/auth/register",{
-                email,
-                password,
-                contactNumber
-            });
-            alert(" Account created successfully! , please login to continue.");
-            navigate("/login");
-        }
-        catch(err){
-            console.error(err)
-            alert("Something went wrong, Email might already exist.")
-        }
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setMessage({ text: "", type: "" });
 
+    try {
+      
+      const res = await api.post("/auth/register", formData);
+      
+      setMessage({ text: "Account created! Redirecting to login...", type: "success" });
+      
+     
+      setTimeout(() => navigate("/login"), 2000);
+    } catch (err) {
+      const errorMsg = err.response?.data?.error || "Registration failed. Try again.";
+      setMessage({ text: errorMsg, type: "error" });
     }
-    return(
-        <div>
-            <h2>Creat  an account</h2>
-            <form onSubmit={handleRegister}>
-                <label><b>Email Adress</b></label>
-                < input 
-                type='email'
-                placholder='Email'
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
-                required
-                />
-                
-                <label><b>Contact Number</b></label>
-                <input 
-                type='contactNumber'
-                value={contactNumber}
-                onChange={(e)=>setContactNumber(e.target.value)}
-                required
-                />
+  };
 
-                <label><b>Password</b></label>
-                <input 
-                type='password'
-                placholder='Password'
-                value={password}
-                onChange={(e)=>setPassword(e.target.value)}
-                required
-                />
-                <button type="submit">Create Account</button>
-            </form>
+  return (
+    <div className="min-h-screen w-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1499002238440-d264edd596ec')] bg-cover bg-center">
+    
+      <div className="bg-white/10 backdrop-blur-lg p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/20 text-white">
+        <h2 className="text-4xl font-semibold text-center mb-2">Join us!</h2>
+        <p className="text-center text-sm text-gray-200 mb-8">Start your personal journey today</p>
+
+        <form onSubmit={handleSignup} className="space-y-5">
+          {message.text && (
+            <div className={`p-3 rounded-xl text-center text-sm font-medium ${message.type === 'error' ? 'bg-red-500/50' : 'bg-emerald-500/50'}`}>
+              {message.text}
+            </div>
+          )}
+
+          <div>
+            <label className="block text-xs uppercase tracking-widest mb-2 opacity-70">Full Name</label>
+            <input 
+              type="text" 
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-400 transition-all placeholder:text-gray-400"
+              placeholder="e.g. John Doe"
+              onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs uppercase tracking-widest mb-2 opacity-70">Email Address</label>
+            <input 
+              type="email" 
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-400 transition-all placeholder:text-gray-400"
+              placeholder="your@email.com"
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs uppercase tracking-widest mb-2 opacity-70">Password</label>
+            <input 
+              type="password" 
+              className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-purple-400 transition-all placeholder:text-gray-400"
+              placeholder="Min. 6 characters"
+              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              required
+            />
+          </div>
+
+          <button className="w-full bg-white text-purple-900 font-bold py-3 rounded-xl hover:bg-gray-200 transition-all shadow-lg active:scale-95 mt-4">
+            Create Account
+          </button>
+        </form>
+
+        <div className="mt-8 text-center text-sm">
+          <p className="opacity-70 text-gray-300">Already have an account? 
+            <Link to="/login" className="ml-2 font-bold text-white hover:underline">Log In</Link>
+          </p>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
-export default Regester ;
+
+export default Register;
