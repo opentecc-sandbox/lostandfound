@@ -1,32 +1,19 @@
-import { px } from "framer-motion";
-import { Maximize } from "lucide-react";
-import React from "react"
+import React from 'react';
+import { useReveal } from '../hooks/useReveal';
+import { glassCardStyle } from '../utils/styles'; // Import the style we made
+
 const ItemCard = ({ item }) => {
-    return(
-        <>
-        <div>
-            <h3>{item.title}</h3>
-            <p >{item.dateFoundLost ?new Date (item.dateFoundLost).toLocaleDateString() : "No date"}</p>
-        </div>
-        <div className="img">
-            {item.photoUrl? (
-                <img src={item.photoUrl}alt={item.title} />) :(
-                    <img src="https://bihin.ginowan-impulse.com/wp-content/themes/ginowanimp_zaitko1.0/assets/img/no-photo.jpg"/>
-                )
-            }   
-        </div>
-        <div>
-            <p>{item.location}</p>
-            <p>{item.description || "No description"}</p>
-        </div>
-        <div>
-            <button>Contact</button>
-        </div>
+  const [domRef, isVisible] = useReveal();
 
-    
-    </>
-    );
-    
+  return (
+    <div 
+      ref={domRef}
+      className={`${glassCardStyle} p-6 transition-all duration-1000 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
+      {/* Your Card Content (Image, Title, etc.) */}
+      <h3 className="text-white font-bold">{item.name}</h3>
+    </div>
+  );
 };
-
-export default ItemCard ;

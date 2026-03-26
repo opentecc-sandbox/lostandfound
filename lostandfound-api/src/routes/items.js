@@ -1,46 +1,66 @@
-// backend/routes/items.js
 const express = require("express");
 const router = express.Router();
-const { prisma } = require("../lib/prisma");
- // Import the client we just made
+const { prisma } = require("../lib/prisma"); // T-yqed mn had l'path 3la hsab l'structure dyalk
 
-// GET all items (with basic filtering)
+// 1. GET ALL ITEMS (Browsing)
 router.get("/", async (req, res) => {
-  const { type, category } = req.query; // e.g., /api/items?type=LOST
+  const { type, category } = req.query; 
   try {
     const items = await prisma.item.findMany({
       where: {
         type: type || undefined,
         category: category || undefined,
       },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      include: {
+        user: {
+          select: { fullname: true, email: true } // Bach t-biyen smiyt li lqah/wadro
+        }
+      }
     });
     res.json(items);
   } catch (error) {
-    console.error("❌ DEBUGGING ERROR:", error);
+    console.error("❌ FETCH ERROR:", error);
     res.status(500).json({ error: "Failed to fetch items" });
   }
 });
 
-// POST a new item (Report Lost/Found)
+// 2. POST NEW ITEM (Report Lost/Found)
 router.post("/", async (req, res) => {
-  const { title, description, category, location, type, date, userId } = req.body;
+  const { title, description, category, location, type, date, userId, photoUrl } = req.body;
+
+  // Validation dial l'userId (Convert to Integer)
+  const parsedUserId = parseInt(userId);
+  
+  if (isNaN(parsedUserId)) {
+    return res.status(400).json({ 
+      error: "User ID is missing or invalid. Please ensure you are logged in." 
+    });
+  }
+
   try {
     const newItem = await prisma.item.create({
       data: {
         title,
-        description,
+        description: description || null,
         category,
-        location,
-        type, // Must be "LOST" or "FOUND"
-        date: new Date(date),
-        userId: parseInt(userId), // Temporary until we add Auth
+        location: location || "",
+        type, // "LOST" or "FOUND"
+        // Mapping 'date' l'champ li 3ndek f schema
+        date: date ? new Date(date) : new Date(), 
+        userId: parsedUserId,
+        photoUrl: photoUrl && photoUrl.trim() !== "" ? photoUrl : null,
+        status: "open"
       },
     });
+
     res.status(201).json(newItem);
   } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: "Check your data fields" });
+    console.error("❌ PRISMA CREATE ERROR:", error);
+    res.status(500).json({ 
+      error: "Check your database connection or schema fields", 
+      details: error.message 
+    });
   }
 });
 

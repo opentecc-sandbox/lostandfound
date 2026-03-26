@@ -8,22 +8,27 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await api.post("/auth/login", { email, password });
-      localStorage.setItem("token", res.data.token);
-      navigate("/home");
-    } catch (err) {
-      setError("Invalid email or password");
-    }
-  };
+  // Login.jsx
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await api.post("/auth/login", { email, password });
+    
+    // Fix hna: khabi l'token O l'userId
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("userId", res.data.user.id); // <--- Zid had l'line darouri!
+
+    navigate("/");
+  } catch (err) {
+    setError("Invalid email or password");
+  }
+};
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1499002238440-d264edd596ec')] bg-cover bg-center">
       {/* الـ Glass Card */}
       <div className="bg-white/10 backdrop-blur-md p-10 rounded-3xl shadow-2xl w-full max-w-md border border-white/20 text-white">
-        <h2 className="text-4xl font-semibold text-center mb-2">Login</h2>
+        <h2 classNae="text-4xl font-semibold text-center mb-2">Login</h2>
 
         <form onSubmit={handleLogin} className="space-y-6">
           {error && <p className="bg-red-500/50 text-white p-2 rounded text-center text-sm">{error}</p>}
@@ -57,7 +62,7 @@ const Login = () => {
 
         <div className="mt-8 text-center text-sm">
           <p className="opacity-70">Don't have an account? 
-            <Link to="/signup" className="ml-2 font-bold hover:underline">Sign Up</Link>
+            <Link to="/register" className="ml-2 font-bold hover:underline">Sign Up</Link>
           </p>
         </div>
       </div>

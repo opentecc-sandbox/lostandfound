@@ -3,8 +3,9 @@ const cors = require("cors");
 require("dotenv").config();
 const authRouter = require("./routes/auth");
 const itemsRouter = require("./routes/items");
-
 const app = express();
+const PORT = process.env.PORT || 5000;
+
 // alow the backend to talk with the frontend
 app.use(cors({
   origin: "http://localhost:5173", // my Vite port
@@ -22,7 +23,7 @@ app.get("/", (req, res) => {
   res.send("Server running and CORS configured for Vite!");
 });
 
-const PORT = process.env.PORT || 5000;
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
