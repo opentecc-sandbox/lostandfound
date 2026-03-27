@@ -6,19 +6,19 @@ const itemsRouter = require("./routes/items");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// alow the backend to talk with the frontend
+
 app.use(cors({
-  origin: "http://localhost:5173", // my Vite port
+  origin: "http://localhost:5173", 
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
 app.use(express.json());
 
-// routes
+
 app.use("/api/items", itemsRouter);
 
-// test route
+
 app.get("/", (req, res) => {
   res.send("Server running and CORS configured for Vite!");
 });

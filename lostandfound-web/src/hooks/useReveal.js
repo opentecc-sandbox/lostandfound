@@ -7,7 +7,6 @@ export const useReveal = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        // Only set to true once so it doesn't disappear when you scroll back up
         if (entry.isIntersecting) {
           setIsVisible(true);
         }

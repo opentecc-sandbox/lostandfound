@@ -1,6 +1,6 @@
 import React from 'react';
 import { useReveal } from '../hooks/useReveal';
-import { glassCardStyle } from '../utils/styles'; // Import the style we made
+import { glassCardStyle } from '../utils/styles'; 
 
 const ItemCard = ({ item }) => {
   const [domRef, isVisible] = useReveal();
@@ -12,7 +12,6 @@ const ItemCard = ({ item }) => {
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
       }`}
     >
-      {/* Your Card Content (Image, Title, etc.) */}
       <h3 className="text-white font-bold">{item.name}</h3>
     </div>
   );
