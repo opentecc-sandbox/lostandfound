@@ -1,10 +1,14 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-@theme inline {
-  --color-soft-black: #1A1A1A;
-  --color-card-dark: #242424;
-  --color-vibrant-purple: #A855F7    ;
-  --color-warm-yellow: #FFD280;
-  --color-border-grey: #333333;
+@theme {
+  --color-lavender: #A855F7;
+  --color-charcoal: #1A1A1A;
+}
+
+body {
+  background-color: #151317c4;
+  margin: 0;
+  padding: 0; 
+  overflow-x: hidden;
 }
