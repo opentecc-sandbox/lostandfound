@@ -94,7 +94,7 @@ const Home = () => {
     ))
   ) : (
     <div className="col-span-3 py-32 text-center border-2 border-dashed border-white/5 rounded-[40px]">
-       <p className="text-slate-500 text-2xl uppercase font-black tracking-widest">
+       <p className="text-[#9a87ba]  text-3xl  font-black tracking-widest">
          {loading ? "Loading items..." : "No items reported yet."}
        </p>
     </div>
